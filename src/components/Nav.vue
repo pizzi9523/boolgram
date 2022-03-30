@@ -1,6 +1,6 @@
 <template>
   <nav class="Navbar py-4">
-    <div class="container">
+    <div class="container px-3">
       <div class="d-flex justify-content-between align-items-center">
         <div class="logo">
           <a href="#">
