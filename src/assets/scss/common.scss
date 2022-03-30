@@ -1,6 +1,7 @@
 .profile {
     img {
     width: 25px;
+    height: 25px;
     border-radius: 50%;
     }
 }
@@ -8,6 +9,7 @@
 .profile_medium {
     img {
     width: 50px;
+    height: 50px;
     border-radius: 50%;
     }
 }
@@ -15,6 +17,23 @@
 .profile_big {
     img {
     width: 75px;
+    height: 75px;
     border-radius: 50%;
     }
 }
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 15px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #ebebeb;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: lightgrey;
+  }
