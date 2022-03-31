@@ -1,14 +1,16 @@
 <template>
   <div class="posts">
-    <div class="post_card">
+    <div class="post_card" v-for="post in posts" :key="post.post_text">
       <div
         class="top_post d-flex justify-content-between align-items-center px-5"
       >
         <div class="profile_post_author d-flex align-items-center">
           <div class="profile_post_img border">
-            <img src="../assets/profile.jpg" alt="" />
+            <img :src="post.profile_picture" alt="" />
           </div>
-          <div class="profile_name mx-3 fw-bold">Ciccio</div>
+          <div class="profile_name mx-3 fw-bold">
+            {{ post.profile_fullname }}
+          </div>
         </div>
 
         <div class="menu_post">
@@ -17,7 +19,7 @@
       </div>
 
       <div class="post_img">
-        <img src="../assets/landscape.png" alt="" />
+        <img :src="post.post_image" alt="" />
       </div>
 
       <div class="do_like_comment d-flex p-3">
@@ -31,34 +33,42 @@
 
       <div class="n_like px-4 d-flex">
         <div class="profile">
-          <img src="../assets/profile.jpg" alt="" />
+          <img
+            v-if="post.likes.length > 0"
+            :src="post.likes[post.likes.length - 1]['profile_picture']"
+            alt=""
+          />
         </div>
-        <div class="like_text mx-2">
-          Piace a <span class="fw-bold">Ciccio</span> e altri
-          <span class="fw-bold">34</span>
+        <div class="like_text mx-2" v-if="post.likes.length > 0">
+          Piace a
+          <span class="fw-bold">{{
+            post.likes[post.likes.length - 1]["username"]
+          }}</span>
+          e altri
+          <span class="fw-bold">{{ post.likes.length }}</span>
           <strong> persone</strong>
         </div>
       </div>
       <div class="post_description px-4 py-2">
-        <span class="post_author fw-bold">Ciccio </span>
-        <span class="post_title">Queen of Hearts.</span>
+        <span class="post_author fw-bold">{{ post.profile_name }} </span>
+        <span class="post_title">{{ post.post_text }}</span>
       </div>
 
       <div class="comments px-4">
-        <div class="show_comments text-secondary">
-          Mostra tutti e <span>4 </span> commenti.
+        <div
+          class="show_comments text-secondary"
+          v-if="post.comments.length > 3"
+          @click="showComments(post)"
+        >
+          Mostra tutti e <span>{{ post.comments.length }} </span> commenti.
         </div>
-        <div class="comment">
-          <span class="fw-bold comment_author">Autore Commento</span>
-          <span class="comment_text"> I get* </span>.
-        </div>
-        <div class="comment">
-          <span class="fw-bold comment_author">Autore Commento 2</span>
-          <span class="comment_text"> ole* </span>.
-        </div>
-        <div class="comment">
-          <span class="fw-bold comment_author">Autore Commento 3</span>
-          <span class="comment_text"> ciao </span>.
+        <div
+          class="comment"
+          v-for="comment in post.comments.slice(0, comments)"
+          :key="comment['username']"
+        >
+          <span class="fw-bold comment_author">{{ comment.username }}</span>
+          <span class="comment_text"> {{ comment.text }} </span>.
         </div>
       </div>
 
@@ -73,7 +83,23 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      comments: 3,
+    };
+  },
+  props: {
+    posts: Array,
+  },
+  methods: {
+    showComments(post) {
+      console.log("clicked");
+      console.log(post);
+      this.comments = post.comments.length;
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -104,6 +130,12 @@ export default {};
     }
   }
 
+  .show_comments {
+    &:hover {
+      color: black !important;
+      cursor: pointer;
+    }
+  }
   .add_comment {
     border-top: 1px solid darkgrey;
     padding: 16px;

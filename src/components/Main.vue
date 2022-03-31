@@ -3,7 +3,7 @@
     <div class="row">
       <div class="left_side col-8">
         <Stories :profiles="this.profiles" />
-        <Posts />
+        <Posts :posts="this.posts" />
       </div>
       <div class="right_side col-4">
         <div
@@ -77,7 +77,10 @@ export default {
     return {
       api_uri_profiles:
         "https://flynn.boolean.careers/exercises/api/boolgram/profiles",
+      api_uri_posts:
+        "https://flynn.boolean.careers/exercises/api/boolgram/posts",
       profiles: [],
+      posts: [],
     };
   },
   components: {
@@ -86,11 +89,29 @@ export default {
   },
 
   mounted() {
-    axios.get(this.api_uri_profiles).then((response) => {
-      // console.log(response.data);
-      this.profiles = response.data;
-      console.log(this.profiles);
-    });
+    axios
+      .get(this.api_uri_profiles)
+      .then((response) => {
+        // console.log(response.data);
+        this.profiles = response.data;
+        console.log(this.profiles);
+      })
+      .catch((e) => {
+        console.log(e, "ERROR");
+      });
+
+    axios
+      .get(this.api_uri_posts)
+      .then((response) => {
+        this.posts = response.data;
+        console.log(this.posts);
+        // response.data.forEach((post) => {
+        //   console.log(post.likes.length);
+        // });
+      })
+      .catch((e) => {
+        console.log(e, "ERROR");
+      });
   },
 };
 </script>
