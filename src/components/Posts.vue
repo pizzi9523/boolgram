@@ -1,6 +1,6 @@
 <template>
   <div class="posts">
-    <div class="post_card" v-for="post in posts" :key="post.post_text">
+    <div class="post_card" v-for="(post, index) in posts" :key="post.post_text">
       <div
         class="top_post d-flex justify-content-between align-items-center px-5"
       >
@@ -58,17 +58,29 @@
         <div
           class="show_comments text-secondary"
           v-if="post.comments.length > 3"
-          @click="showComments(post)"
+          @click="showComments(index)"
         >
           Mostra tutti e <span>{{ post.comments.length }} </span> commenti.
         </div>
-        <div
-          class="comment"
-          v-for="comment in post.comments.slice(0, comments)"
-          :key="comment['username']"
-        >
-          <span class="fw-bold comment_author">{{ comment.username }}</span>
-          <span class="comment_text"> {{ comment.text }} </span>.
+        <div v-if="comments_pointer == index">
+          <div
+            v-for="comment in post.comments"
+            :key="comment['username']"
+            class="comment"
+          >
+            <span class="fw-bold comment_author">{{ comment.username }}</span>
+            <span class="comment_text"> {{ comment.text }} </span>
+          </div>
+        </div>
+        <div v-else>
+          <div
+            v-for="comment in post.comments.slice(0, 3)"
+            :key="comment['username']"
+            class="comment"
+          >
+            <span class="fw-bold comment_author">{{ comment.username }}</span>
+            <span class="comment_text"> {{ comment.text }} </span>
+          </div>
         </div>
       </div>
 
@@ -86,19 +98,20 @@
 export default {
   data() {
     return {
-      comments: 3,
+      comments_pointer: null,
     };
   },
   props: {
     posts: Array,
   },
   methods: {
-    showComments(post) {
-      console.log("clicked");
-      console.log(post);
-      this.comments = post.comments.length;
+    showComments(index) {
+      this.comments_pointer = index;
+      // console.log(this.comments_pointer);
     },
   },
+
+  mounted() {},
 };
 </script>
 
@@ -136,6 +149,7 @@ export default {
       cursor: pointer;
     }
   }
+
   .add_comment {
     border-top: 1px solid darkgrey;
     padding: 16px;
@@ -143,6 +157,10 @@ export default {
       border: 0;
       width: 80%;
     }
+  }
+
+  .hidden {
+    display: none;
   }
 }
 </style>

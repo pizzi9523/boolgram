@@ -1,13 +1,23 @@
 <template>
-  <div class="container">
+  <div
+    class="skeleton"
+    v-if="loading_profiles == false || loading_posts == false"
+  >
+    <Skeleton />
+  </div>
+  <!-- /skeleton  -->
+  <div class="container" v-else>
     <div class="row">
       <div class="left_side col-8">
         <Stories :profiles="this.profiles" />
         <Posts :posts="this.posts" />
       </div>
+      <!-- /left-side -->
+
       <div class="right_side col-4">
         <div
           class="
+            my-profile
             profile_big
             my-5
             px-5
@@ -27,6 +37,7 @@
 
           <div class="pass text-info">Passa a</div>
         </div>
+        <!-- /my-profile  -->
 
         <div class="suggestions_top d-flex justify-content-between mb-2 px-5">
           <div class="suggestion_title text-secondary fw-bold">
@@ -53,6 +64,7 @@
             <div class="follow text-info">Segui</div>
           </div>
         </div>
+        <!-- /suggestion_for_you  -->
 
         <footer>
           <div class="p-4">
@@ -61,7 +73,9 @@
             >
           </div>
         </footer>
+        <!-- /footer  -->
       </div>
+      <!-- /right-side  -->
     </div>
   </div>
   <!-- /.container -->
@@ -70,6 +84,8 @@
 <script>
 import Stories from "../components/Stories.vue";
 import Posts from "../components/Posts.vue";
+import Skeleton from "../components/Skeleton.vue";
+
 import axios from "axios";
 
 export default {
@@ -81,37 +97,52 @@ export default {
         "https://flynn.boolean.careers/exercises/api/boolgram/posts",
       profiles: [],
       posts: [],
+      loading_profiles: false,
+      loading_posts: false,
     };
   },
   components: {
     Stories,
     Posts,
+    Skeleton,
+  },
+
+  methods: {
+    call_api_profiles() {
+      axios
+        .get(this.api_uri_profiles)
+        .then((response) => {
+          // console.log(response.data);
+          this.profiles = response.data;
+          this.loading_profiles = true;
+          // console.log(this.profiles);
+        })
+        .catch((e) => {
+          console.log(e, "ERROR");
+        });
+    },
+
+    call_api_posts() {
+      axios
+        .get(this.api_uri_posts)
+        .then((response) => {
+          this.posts = response.data;
+          this.loading_posts = true;
+
+          // console.log(this.posts);
+          // response.data.forEach((post) => {
+          //   console.log(post.likes.length);
+          // });
+        })
+        .catch((e) => {
+          console.log(e, "ERROR");
+        });
+    },
   },
 
   mounted() {
-    axios
-      .get(this.api_uri_profiles)
-      .then((response) => {
-        // console.log(response.data);
-        this.profiles = response.data;
-        console.log(this.profiles);
-      })
-      .catch((e) => {
-        console.log(e, "ERROR");
-      });
-
-    axios
-      .get(this.api_uri_posts)
-      .then((response) => {
-        this.posts = response.data;
-        console.log(this.posts);
-        // response.data.forEach((post) => {
-        //   console.log(post.likes.length);
-        // });
-      })
-      .catch((e) => {
-        console.log(e, "ERROR");
-      });
+    setTimeout(this.call_api_profiles, 5000);
+    setTimeout(this.call_api_posts, 5000);
   },
 };
 </script>
