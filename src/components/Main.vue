@@ -112,7 +112,31 @@ export default {
       axios
         .get(this.api_uri_profiles)
         .then((response) => {
-          // console.log(response.data);
+          /* console.log(response.data);
+          let prova = [1, 2, 3, 4];
+          console.log(prova);
+          console.log(prova.join("-"));
+          prova.map((n) => n % 2 == 0);
+          console.log(prova.map((n) => n * 2));
+          console.log(prova);
+          console.log(prova.reverse());
+          const parola = "eccetera amico mio non funge";
+
+          // console.log(parola.split("").reverse().join(""));
+
+          function reverseString(parola) {
+            let reverse = "";
+            for (let i = parola.length - 1; i >= 0; i--) {
+              const lettera = parola[i];
+              reverse += lettera;
+            }
+            return reverse;
+          }
+          console.log(parola.replaceAll(" ", ""));
+          console.log(reverseString(parola).replaceAll(" ", ""));
+          let inverted = reverseString(parola);
+          console.log(inverted.replaceAll(" ", "")); */
+
           this.profiles = response.data;
           this.loading_profiles = true;
           // console.log(this.profiles);
@@ -141,8 +165,8 @@ export default {
   },
 
   mounted() {
-    setTimeout(this.call_api_profiles, 5000);
-    setTimeout(this.call_api_posts, 5000);
+    setTimeout(this.call_api_profiles, 1000);
+    setTimeout(this.call_api_posts, 1000);
   },
 };
 </script>
