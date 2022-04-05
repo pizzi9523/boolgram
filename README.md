@@ -1,24 +1,6 @@
 # boolgram
 
-## Project setup
-```
-npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+https://user-images.githubusercontent.com/84190473/161727711-34c74ac8-dfd2-4d91-8803-68bbeeea208f.mp4
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
